@@ -26,15 +26,27 @@ const userSchema = new mongoose.Schema({
     department: {
         type: String,
     },
-
-    role: {
-        type:String,
-        enum: ['admin', 'student','mentor'],
+    gender: {
+        type: String,
     },
-    action:{
-        type:String,
-        enum: ['yes','no'],
-        default:'yes'
+    age: {
+        type: String,
+    },
+    college: {
+        type: String,
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'student', 'mentor'],
+    },
+    mentorId: {
+        type: String,
+        // ref:`id`
+    },
+    action: {
+        type: String,
+        default: 'no',
+        enum: ['yes', 'no','rejecet'],
     },
     createdAt: {
         type: Date,

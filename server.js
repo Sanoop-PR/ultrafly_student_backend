@@ -14,6 +14,7 @@ dotenv.config();
 app.use(cookieParser());
 const corsOptions = {
     origin: 'https://students-project.netlify.app', // Replace with your frontend URL
+    // origin: 'http://localhost:5173', // Replace with your frontend URL
     credentials: true
 };
 

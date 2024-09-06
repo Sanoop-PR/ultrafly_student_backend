@@ -32,31 +32,31 @@ exports.uploadFile = async (req, res) => {
 
 // Download File Controller
 exports.downloadFile = async (req, res) => {
-  console.log(req.params.id)
   try {
+    // Find the file by ID from the database
     const file = await File.findById(req.params.id);
 
     if (!file) {
       return res.status(404).send('File not found.');
     }
 
-    const filePath = file.path;
+    const filePath = file.path; // Get the path to the file
 
-    // Check if the file exists
-    fs.access(filePath, fs.constants.F_OK, (err) => {
+    // Check if the file exists using the synchronous `fs.existsSync` method
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).send('File not found.');
+    }
+
+    // Send the file to the client for download
+    res.download(filePath, file.originalName, (err) => {
       if (err) {
-        return res.status(404).send('File not found.');
+        console.error('Error downloading file:', err);
+        return res.status(500).send('Error downloading file.');
       }
-
-      // Send the file for download
-      res.download(filePath, file.originalName, (err) => {
-        if (err) {
-          console.error('Error downloading file:', err);
-          res.status(500).send('Error downloading file.');
-        }
-      });
     });
+
   } catch (err) {
+    console.error('Error fetching file:', err);
     res.status(500).send('Error fetching file.');
   }
 };
